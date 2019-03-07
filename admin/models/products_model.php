@@ -1,24 +1,24 @@
-<?php 
+<?php
 
-require('includes/config.php');
+// Get All Products
+$strSQL = "SELECT *
 
-$productId = $_GET['product'];
 
-// Get all products
-$strSQL = 
-    "SELECT * FROM cis282store.products p
-    WHERE p.product_id = $productId";
+    FROM
+    cis282store.products p
 
-// Get results
+    ORDER BY
+    p.product_id
+";
+
+// Get Result
 $result = mysqli_query($connect, $strSQL);
 
-// Fetch data
+// Fetch Data
 $productList = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-// Free result
+// Free Result
 mysqli_free_result($result);
 
-// Close connection
-mysqli_close($connect);
-
-?>
+// Close Connection
+mysqli_close($conn);
