@@ -17,29 +17,40 @@ require 'models/categories_model.php';
 </head>
 
 <body>
-    <div class="container bg-primary">
-        <h1 class="text-secondary">Category List</h1>
-    </div>
 
-    <div class="container">
-        <div class="row text-center text-secondary">
-            <div class="col-1"></div>
-            <h2 class="col-1">Category</h2>
-        </div>
-    </div>
-
-    <div class="container">
-
-        <?php foreach ($categoryList as $row) {?>
-        <div class="row text-body">
-            <div class="col-1"><?php echo $row['category_id']; ?></div>
-            <div class="col-1"><a
-                    href="edit_categories.php?<?php echo $row['category_id']; ?>"><?php echo $row['category_name']; ?></a>
+    <div class="container-fluid bg-primary">
+        <div class="row">
+            <div class="col">
+                <h1 class="text-secondary">Category List</h1>
+                <a href="add_categories.php" class="btn btn-primary">Add Category</a>
             </div>
         </div>
-        <?php }?>
-
     </div>
+
+    <div class="container-fluid">
+        <div class="row text-center text-secondary">
+            <div class="col-1"></div>
+            <h2 class="col-5 text-left">Category</h2>
+        </div>
+    </div>
+
+
+
+    <?php foreach ($categoryList as $row) {?>
+    <div class="container-fluid list">
+        <div class="row text-body text-center">
+            <div class="col-1"><?php echo $row['category_id']; ?></div>
+            <div class="col-5 text-left"><?php echo $row['category_name']; ?></div>
+            <div class="col-6">
+                <a href="edit_categories.php?edit=<?php echo $row['category_id']; ?>" class="btn btn-info">Edit</a>
+                <a href="models/edit_categories_model.php?delete=<?php echo $row['category_id']; ?>"
+                    class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+    <?php }?>
+
+
 
 
 

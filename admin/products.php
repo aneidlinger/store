@@ -18,6 +18,15 @@ require 'models/products_model.php';
 
 <body>
 
+    <div class="container-fluid bg-primary">
+        <div class="row">
+            <div class="col">
+                <h1 class="text-secondary">Product List</h1>
+                <a href="add_products.php" class="btn btn-primary">Add Product</a>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="row text-center">
             <div class="col-1"></div>
@@ -43,6 +52,9 @@ require 'models/products_model.php';
             <div class="col-1"><?php echo $row['list_price']; ?></div>
             <div class="col-2"><?php echo $row['discount_percent']; ?></div>
             <div class="col-1"><?php echo $row['date_added']; ?></div>
+            <a href="edit_products.php?edit=<?php echo $row['product_id']; ?>" class="btn btn-info">Edit</a>
+            <a href="models/edit_products_model.php?delete=<?php echo $row['product_id']; ?>"
+                class="btn btn-danger">Delete</a>
         </div>
         <?php }?>
 
