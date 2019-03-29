@@ -5,7 +5,11 @@ $strSQL = "SELECT *
 
 
     FROM
-    cis282store.products p
+    cis282store.products p, cis282store.categories c
+
+    WHERE
+    p.category_id = c.category_id
+
 
     ORDER BY
     p.product_id

@@ -23,11 +23,12 @@ require 'models/categories_model.php';
             <div class="col">
                 <h1 class="text-secondary">Category List</h1>
                 <a href="add_categories.php" class="btn btn-primary">Add Category</a>
+                <a href="index.html" class="btn btn-primary">Return to Admin Home</a>
             </div>
         </div>
     </div>
 
-    <div class="container-fluid">
+    <div class="container-fluid card-header">
         <div class="row text-center text-secondary">
             <div class="col-1"></div>
             <h2 class="col-5 text-left">Category</h2>
@@ -35,21 +36,21 @@ require 'models/categories_model.php';
     </div>
 
 
-
-    <?php foreach ($categoryList as $row) {?>
     <div class="container-fluid list">
-        <div class="row text-body text-center">
-            <div class="col-1"><?php echo $row['category_id']; ?></div>
-            <div class="col-5 text-left"><?php echo $row['category_name']; ?></div>
-            <div class="col-6">
+        <?php foreach ($categoryList as $row) {?>
+
+        <div class="row text-body text-center line">
+            <div class="col-1 align-self-center"><?php echo $row['category_id']; ?></div>
+            <div class="col-5 text-left align-self-center"><?php echo $row['category_name']; ?></div>
+            <div class="col-6 align-self-center">
                 <a href="edit_categories.php?edit=<?php echo $row['category_id']; ?>" class="btn btn-info">Edit</a>
                 <a href="models/edit_categories_model.php?delete=<?php echo $row['category_id']; ?>"
                     class="btn btn-danger">Delete</a>
             </div>
         </div>
-    </div>
-    <?php }?>
 
+        <?php }?>
+    </div>
 
 
 

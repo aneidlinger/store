@@ -6,6 +6,4 @@ $dbpass = 'red8blue';
 $dbname = 'cis282store';
 $connect = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 
-if (!$connect) {
-    die('Could not connect to instance: ' . mysqli_error($connect));
-}
+$mysqli = new mysqli($dbhost, $dbuser, $dbpass, $dbname) or die($mysqli->error);
