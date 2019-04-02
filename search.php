@@ -1,6 +1,8 @@
 <?php
 require 'includes/config.php';
 require 'models/cart_model.php';
+require 'models/search_model.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +25,7 @@ require 'models/cart_model.php';
 <body>
     <!-- Navbar Container -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="index.php">CIS282 Store</a>
+        <a class="navbar-brand" href="#">Navbar</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -32,7 +34,7 @@ require 'models/cart_model.php';
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="cart.php"><i class="fas fa-shopping-cart"></i></a>
@@ -42,7 +44,7 @@ require 'models/cart_model.php';
             <form class="form-inline my-2 my-lg-0" action="search.php" method="POST">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" name="search"
                     aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="submit"
+                <button class="btn btn-outline-info my-2 my-sm-0" type="submit" name="submit"
                     value="Search">Search</button>
             </form>
         </div>
@@ -50,40 +52,25 @@ require 'models/cart_model.php';
 
     <div class="container">
         <div class="row">
-            <?php
-if ($result):
-    if (mysqli_num_rows($result) > 0):
-        while ($product = mysqli_fetch_assoc($result)):
-            //print_r($product);
-            ?>
-            <div class="col-md-4 col-sm-6">
-                <form method="post" action="cart.php?action=add&id=<?php echo $product['product_id']; ?>">
-                    <div class="products">
-                        <?php $productPicName = str_replace(" ", "_", $product['product_code']);?>
-                        <img src="img/<?php echo $product['product_code']; ?>_l.jpg" class="img-fluid" />
-                        <h4 class="text-info"><a
-                                href="product.php?product=<?php echo $product['product_id']; ?>"><?php echo $product['product_name']; ?></a>
-                        </h4>
-                        <h4 class="text-info">$<?php echo $product['list_price']; ?></h4>
-                        <input type="text" name="quantity" class="form-control" value="1" />
-                        <input type="hidden" name="name" value="<?php echo $product['product_name']; ?>" />
-                        <input type="hidden" name="price" value="<?php echo $product['list_price']; ?>" />
-                        <input type="submit" name="add_to_cart" class="btn btn-info cart-submit" value="Add to Cart" />
-                    </div>
-                </form>
+            <div class="col-12 search_results">
+                <h2>Search Results for "<?php echo "$search"; ?>"</h2>
             </div>
-            <?php
-        endwhile;
-    endif;
-endif;
-?>
+
+            <?php while ($result = mysqli_fetch_array($searchResult)) {?>
+
+            <div class="col-2 search_img my-2">
+                <?php $resultPicName = str_replace(" ", "_", $result['product_code']);?>
+                <img src="img/<?php echo $result['product_code']; ?>_l.jpg" class="img-fluid" alt="search results">
+            </div>
+
+            <div class="col-10 search_info my-2">
+                <h2><a href="product.php?product=<?php echo $result['product_id']; ?>">
+                        <?php echo $result['product_name']; ?></a></h2>
+                <h4>$<?php echo $result['list_price']; ?></h4>
+            </div>
+            <?php }?>
         </div>
-
-
-
     </div>
-
-
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
