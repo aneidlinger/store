@@ -1,6 +1,7 @@
 <?php
 require 'includes/config.php';
 require 'models/cart_model.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -22,29 +23,39 @@ require 'models/cart_model.php';
 
 <body>
     <!-- Navbar Container -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="index.php">CIS282 Store</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <!-- Navbar Content -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="cart.php"><i class="fas fa-shopping-cart"></i></a>
-                </li>
-            </ul>
-            <!-- Search Bar -->
-            <form class="form-inline my-2 my-lg-0" action="search.php" method="POST">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" name="search"
-                    aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="submit"
-                    value="Search">Search</button>
-            </form>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.php">CIS282 Store</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Navbar Content -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cart.php"><i class="fas fa-shopping-cart"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="category.php?category=Guitars">Guitars</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="category.php?category=Basses">Basses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="category.php?category=Drums">Drums</a>
+                    </li>
+                </ul>
+                <!-- Search Bar -->
+                <form class="form-inline my-2 my-lg-0" action="search.php" method="POST">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" name="search"
+                        aria-label="Search">
+                    <button class="btn btn-info my-2 my-sm-0" type="submit" name="submit" value="Search">Search</button>
+                </form>
+            </div>
         </div>
     </nav>
 
@@ -56,23 +67,29 @@ if ($result):
         while ($product = mysqli_fetch_assoc($result)):
             //print_r($product);
             ?>
-            <div class="col-md-4 col-sm-6">
-                <form method="post" action="cart.php?action=add&id=<?php echo $product['product_id']; ?>">
-                    <div class="products">
-                        <?php $productPicName = str_replace(" ", "_", $product['product_code']);?>
-                        <img src="img/<?php echo $product['product_code']; ?>_l.jpg" class="img-fluid" />
-                        <h4 class="text-info"><a
-                                href="product.php?product=<?php echo $product['product_id']; ?>"><?php echo $product['product_name']; ?></a>
-                        </h4>
-                        <h4 class="text-info">$<?php echo $product['list_price']; ?></h4>
-                        <input type="text" name="quantity" class="form-control" value="1" />
-                        <input type="hidden" name="name" value="<?php echo $product['product_name']; ?>" />
-                        <input type="hidden" name="price" value="<?php echo $product['list_price']; ?>" />
-                        <input type="submit" name="add_to_cart" class="btn btn-info cart-submit" value="Add to Cart" />
-                    </div>
-                </form>
-            </div>
-            <?php
+			            <div class="col-md-4 col-sm-6 my-5">
+			                <form class="h-100" method="post" action="cart.php?action=add&id=<?php echo $product['product_id']; ?>">
+			                    <div class="products d-flex flex-column justify-content-between h-100">
+			                        <?php $productPicName = str_replace(" ", "_", $product['product_code']);?>
+			                        <img src="img/<?php echo $product['product_code']; ?>_l.jpg"
+			                            class="img-fluid border border-warning rounded-lg" />
+			                        <div class="d-flex flex-column justify-content-between flex-fill">
+			                            <h4 class="text-info"><a
+			                                    href="product.php?product=<?php echo $product['product_id']; ?>"><?php echo $product['product_name']; ?></a>
+			                            </h4>
+			                            <h4 class="text-info">$<?php echo $product['list_price']; ?></h4>
+			                        </div>
+			                        <div class="row mx-n1">
+			                            <input type="text" name="quantity" class="form-control col-5 px-1" value="1" />
+			                            <input type="hidden" name="name" value="<?php echo $product['product_name']; ?>" />
+			                            <input type="hidden" name="price" value="<?php echo $product['list_price']; ?>" />
+			                            <input type="submit" name="add_to_cart"
+			                                class="btn btn-success cart-submit ml-auto col-6 px-1" value="Add to Cart" />
+			                        </div>
+			                    </div>
+			                </form>
+			            </div>
+			            <?php
         endwhile;
     endif;
 endif;

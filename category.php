@@ -1,7 +1,6 @@
 <?php
 require 'includes/config.php';
-require 'models/cart_model.php';
-require 'models/search_model.php';
+require 'models/category_model.php';
 
 ?>
 
@@ -40,15 +39,33 @@ require 'models/search_model.php';
                     <li class="nav-item">
                         <a class="nav-link" href="cart.php"><i class="fas fa-shopping-cart"></i></a>
                     </li>
+                    <?php if ($categoryName == 'Guitars'): ?>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="category.php?category=Guitars">Guitars</a>
+                    </li>
+                    <?php else: ?>
                     <li class="nav-item">
                         <a class="nav-link" href="category.php?category=Guitars">Guitars</a>
                     </li>
+                    <?php endif;?>
+                    <?php if ($categoryName == 'Basses'): ?>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="category.php?category=Basses">Basses</a>
+                    </li>
+                    <?php else: ?>
                     <li class="nav-item">
                         <a class="nav-link" href="category.php?category=Basses">Basses</a>
                     </li>
+                    <?php endif;?>
+                    <?php if ($categoryName == 'Drums'): ?>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="category.php?category=Drums">Drums</a>
+                    </li>
+                    <?php else: ?>
                     <li class="nav-item">
                         <a class="nav-link" href="category.php?category=Drums">Drums</a>
                     </li>
+                    <?php endif;?>
                 </ul>
                 <!-- Search Bar -->
                 <form class="form-inline my-2 my-lg-0" action="search.php" method="POST">
@@ -60,28 +77,48 @@ require 'models/search_model.php';
         </div>
     </nav>
 
-    <div class="container mt-5">
+    <div class="container">
         <div class="row">
-            <div class="col-12 search_results">
-                <h2>Search Results for "<?php echo "$search"; ?>"</h2>
-            </div>
-
-            <?php while ($result = mysqli_fetch_array($searchResult)) {?>
-
-            <div class="col-2 search_img my-2">
-                <?php $resultPicName = str_replace(" ", "_", $result['product_code']);?>
-                <img src="img/<?php echo $result['product_code']; ?>_l.jpg"
-                    class="img-fluid border border-warning rounded-lg" alt="search results">
-            </div>
-
-            <div class="col-10 search_info my-2">
-                <h2><a href="product.php?product=<?php echo $result['product_id']; ?>">
-                        <?php echo $result['product_name']; ?></a></h2>
-                <h4 class="text-info">$<?php echo $result['list_price']; ?></h4>
-            </div>
-            <?php }?>
+            <?php
+if ($result):
+    if (mysqli_num_rows($result) > 0):
+        while ($product = mysqli_fetch_assoc($result)):
+            //print_r($product);
+            ?>
+			            <div class="col-md-4 col-sm-6 my-5">
+			                <form class="h-100" method="post" action="cart.php?action=add&id=<?php echo $product['product_id']; ?>">
+			                    <div class="products d-flex flex-column justify-content-between h-100">
+			                        <?php $productPicName = str_replace(" ", "_", $product['product_code']);?>
+			                        <img src="img/<?php echo $product['product_code']; ?>_l.jpg"
+			                            class="img-fluid border border-warning rounded-lg" />
+			                        <div class="d-flex flex-column justify-content-between flex-fill">
+			                            <h4 class="text-info"><a
+			                                    href="product.php?product=<?php echo $product['product_id']; ?>"><?php echo $product['product_name']; ?></a>
+			                            </h4>
+			                            <h4 class="text-info">$<?php echo $product['list_price']; ?></h4>
+			                        </div>
+			                        <div class="row mx-n1">
+			                            <input type="text" name="quantity" class="form-control col-5 px-1" value="1" />
+			                            <input type="hidden" name="name" value="<?php echo $product['product_name']; ?>" />
+			                            <input type="hidden" name="price" value="<?php echo $product['list_price']; ?>" />
+			                            <input type="submit" name="add_to_cart"
+			                                class="btn btn-success cart-submit ml-auto col-6 px-1" value="Add to Cart" />
+			                        </div>
+			                    </div>
+			                </form>
+			            </div>
+			            <?php
+        endwhile;
+    endif;
+endif;
+?>
         </div>
+
+
+
     </div>
+
+
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
